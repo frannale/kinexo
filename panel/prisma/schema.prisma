@@ -1,0 +1,379 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ─────────────────────────────────────────────
+// ENUMS
+// ─────────────────────────────────────────────
+
+enum RolUsuario {
+  ADMIN_CENTRO
+  KINESIOLOGO
+  RECEPCIONISTA
+}
+
+enum EstadoTratamiento {
+  ACTIVO
+  PAUSADO
+  FINALIZADO
+}
+
+enum EstadoPlan {
+  ACTIVO
+  ARCHIVADO
+}
+
+enum Dificultad {
+  BAJO
+  MEDIO
+  ALTO
+}
+
+enum NivelDificultadPercibida {
+  FACIL
+  ADECUADO
+  DIFICIL
+}
+
+enum TipoAlerta {
+  BAJA_ADHERENCIA
+  SIN_ACTIVIDAD
+  DOLOR_ALTO
+  PERSONALIZADA
+}
+
+// ─────────────────────────────────────────────
+// CENTRO (tenant)
+// Cada centro de kinesiología es un tenant.
+// El slug define su subdominio: slug.kinexo.ar
+// ─────────────────────────────────────────────
+
+model Centro {
+  id            String   @id @default(cuid())
+  nombre        String
+  slug          String   @unique
+  logoUrl       String?
+  emailContacto String?
+  telefono      String?
+  direccion     String?
+  activo        Boolean  @default(true)
+  creadoEn      DateTime @default(now())
+  actualizadoEn DateTime @updatedAt
+
+  usuarios     Usuario[]
+  pacientes    Paciente[]
+  tratamientos Tratamiento[]
+  ejercicios   Ejercicio[]
+  alertas      Alerta[]
+
+  @@map("centros")
+}
+
+// ─────────────────────────────────────────────
+// USUARIO (kinesiólogo, admin, recepcionista)
+// El paciente tiene su propio modelo con auth separada.
+// ─────────────────────────────────────────────
+
+model Usuario {
+  id             String     @id @default(cuid())
+  centroId       String
+  supabaseAuthId String     @unique
+  nombre         String
+  apellido       String
+  email          String
+  rol            RolUsuario
+  activo         Boolean    @default(true)
+  avatarUrl      String?
+  creadoEn       DateTime   @default(now())
+  actualizadoEn  DateTime   @updatedAt
+
+  centro Centro @relation(fields: [centroId], references: [id])
+
+  tratamientosComoResponsable Tratamiento[]
+  evaluaciones                Evaluacion[]
+  alertas                     Alerta[]
+
+  @@unique([centroId, email])
+  @@map("usuarios")
+}
+
+// ─────────────────────────────────────────────
+// PACIENTE
+// Tiene acceso a la app con su propio login.
+// Pertenece a un centro, puede tener múltiples tratamientos.
+// ─────────────────────────────────────────────
+
+model Paciente {
+  id                       String    @id @default(cuid())
+  centroId                 String
+  supabaseAuthId           String?   @unique // se crea al aceptar la invitación
+  nombre                   String
+  apellido                 String
+  documento                String?
+  fechaNacimiento          DateTime?
+  telefono                 String?
+  email                    String?
+  contactoEmergenciaNombre String?
+  contactoEmergenciaTel    String?
+  informacionRelevante     String?
+  activo                   Boolean   @default(true)
+  creadoEn                 DateTime  @default(now())
+  actualizadoEn            DateTime  @updatedAt
+
+  centro       Centro           @relation(fields: [centroId], references: [id])
+  tratamientos Tratamiento[]
+  sesiones     SesionPaciente[]
+  alertas      Alerta[]
+
+  @@unique([centroId, documento])
+  @@map("pacientes")
+}
+
+// ─────────────────────────────────────────────
+// TRATAMIENTO
+// Un paciente puede tener varios tratamientos.
+// Cada tratamiento tiene un kinesiólogo responsable.
+// ─────────────────────────────────────────────
+
+model Tratamiento {
+  id               String            @id @default(cuid())
+  centroId         String
+  pacienteId       String
+  kinesiologoId    String
+  nombre           String
+  motivoConsulta   String?
+  diagnostico      String?
+  zonaCorporal     String?
+  estado           EstadoTratamiento @default(ACTIVO)
+  fechaInicio      DateTime          @default(now())
+  fechaFinEstimada DateTime?
+  fechaFinReal     DateTime?
+  observaciones    String?
+  creadoEn         DateTime          @default(now())
+  actualizadoEn    DateTime          @updatedAt
+
+  centro      Centro  @relation(fields: [centroId], references: [id])
+  paciente    Paciente @relation(fields: [pacienteId], references: [id])
+  kinesiologo Usuario  @relation(fields: [kinesiologoId], references: [id])
+
+  evaluaciones Evaluacion[]
+  objetivos    ObjetivoTratamiento[]
+  planes       Plan[]
+  alertas      Alerta[]
+
+  @@map("tratamientos")
+}
+
+// ─────────────────────────────────────────────
+// EVALUACION
+// Registro clínico del estado del paciente en un momento dado.
+// Un tratamiento puede tener múltiples evaluaciones a lo largo del tiempo.
+// ─────────────────────────────────────────────
+
+model Evaluacion {
+  id                       String   @id @default(cuid())
+  tratamientoId            String
+  kinesiologoId            String
+  fecha                    DateTime @default(now())
+  motivoConsulta           String?
+  zonaCorporal             String?
+  diagnostico              String?
+  antecedentes             String?
+  sintomas                 String?
+  nivelDolor               Int?     // 0-10
+  movilidad                String?  // texto libre o JSON según metodología del centro
+  fuerza                   String?
+  funcionalidad            String?
+  limitaciones             String?
+  observacionesProfesional String?
+  creadoEn                 DateTime @default(now())
+
+  tratamiento Tratamiento @relation(fields: [tratamientoId], references: [id])
+  kinesiologo Usuario     @relation(fields: [kinesiologoId], references: [id])
+
+  @@map("evaluaciones")
+}
+
+// ─────────────────────────────────────────────
+// OBJETIVO DE TRATAMIENTO
+// Puede tener indicadores numéricos medibles para mostrar progreso al paciente.
+// ─────────────────────────────────────────────
+
+model ObjetivoTratamiento {
+  id              String   @id @default(cuid())
+  tratamientoId   String
+  descripcion     String   // "Reducir dolor lumbar"
+  indicadorNombre String?  // "Nivel de dolor"
+  valorInicial    Float?   // 7
+  valorActual     Float?   // 4
+  valorObjetivo   Float?   // 2
+  unidad          String?  // "escala 0-10", "grados", "kg"
+  creadoEn        DateTime @default(now())
+  actualizadoEn   DateTime @updatedAt
+
+  tratamiento Tratamiento @relation(fields: [tratamientoId], references: [id])
+
+  @@map("objetivos_tratamiento")
+}
+
+// ─────────────────────────────────────────────
+// EJERCICIO (biblioteca)
+// centroId null  → biblioteca general de Kinexo
+// centroId presente → biblioteca propia del centro
+// ─────────────────────────────────────────────
+
+model Ejercicio {
+  id              String     @id @default(cuid())
+  centroId        String?    // null = ejercicio de la biblioteca general
+  nombre          String
+  descripcion     String?
+  instrucciones   String?
+  videoUrl        String?
+  imagenUrl       String?
+  zonaCorporal    String?
+  objetivo        String?
+  dificultad      Dificultad @default(MEDIO)
+  equipamiento    String?
+  recomendaciones String?
+  precauciones    String?
+  activo          Boolean    @default(true)
+  creadoEn        DateTime   @default(now())
+  actualizadoEn   DateTime   @updatedAt
+
+  centro          Centro?         @relation(fields: [centroId], references: [id])
+  planesEjercicio PlanEjercicio[]
+
+  @@map("ejercicios")
+}
+
+// ─────────────────────────────────────────────
+// PLAN
+// Un tratamiento tiene múltiples planes a lo largo del tiempo.
+// Al cambiar de plan el anterior se archiva con el motivo de cambio,
+// lo que garantiza el historial completo del tratamiento.
+// ─────────────────────────────────────────────
+
+model Plan {
+  id               String     @id @default(cuid())
+  tratamientoId    String
+  nombre           String
+  objetivo         String?
+  fechaInicio      DateTime   @default(now())
+  fechaFinEstimada DateTime?
+  frecuenciaSemanal Int?
+  instrucciones    String?
+  recomendaciones  String?
+  estado           EstadoPlan @default(ACTIVO)
+  motivoCambio     String?    // por qué se archivó este plan
+  creadoEn         DateTime   @default(now())
+  actualizadoEn    DateTime   @updatedAt
+
+  tratamiento    Tratamiento     @relation(fields: [tratamientoId], references: [id])
+  planEjercicios PlanEjercicio[]
+  sesiones       SesionPaciente[]
+
+  @@map("planes")
+}
+
+// ─────────────────────────────────────────────
+// PLAN_EJERCICIO
+// Ejercicio prescrito dentro de un plan, con configuración específica para ese paciente.
+// La configuración puede variar del ejercicio base de la biblioteca.
+// ─────────────────────────────────────────────
+
+model PlanEjercicio {
+  id                      String   @id @default(cuid())
+  planId                  String
+  ejercicioId             String
+  series                  Int?
+  repeticiones            Int?
+  duracionSegundos        Int?     // para ejercicios por tiempo
+  frecuenciaSemanal       Int?
+  diasSemana              String[] // ["LUN", "MIE", "VIE"]
+  orden                   Int      @default(0)
+  instruccionesEspecificas String? // override de instrucciones para este paciente
+  activo                  Boolean  @default(true)
+  creadoEn                DateTime @default(now())
+  actualizadoEn           DateTime @updatedAt
+
+  plan      Plan                @relation(fields: [planId], references: [id])
+  ejercicio Ejercicio           @relation(fields: [ejercicioId], references: [id])
+  registros RegistroEjercicio[]
+
+  @@map("plan_ejercicios")
+}
+
+// ─────────────────────────────────────────────
+// SESION_PACIENTE
+// Representa una sesión de ejercicio en un día concreto.
+// Agrupa los registros individuales de ejercicios realizados.
+// ─────────────────────────────────────────────
+
+model SesionPaciente {
+  id         String   @id @default(cuid())
+  pacienteId String
+  planId     String
+  fecha      DateTime @default(now())
+  creadoEn   DateTime @default(now())
+
+  paciente  Paciente            @relation(fields: [pacienteId], references: [id])
+  plan      Plan                @relation(fields: [planId], references: [id])
+  registros RegistroEjercicio[]
+
+  @@map("sesiones_paciente")
+}
+
+// ─────────────────────────────────────────────
+// REGISTRO_EJERCICIO
+// El paciente registra cada ejercicio completado con feedback de dolor y dificultad.
+// Es la fuente principal para calcular adherencia.
+// ─────────────────────────────────────────────
+
+model RegistroEjercicio {
+  id                  String                    @id @default(cuid())
+  sesionId            String
+  planEjercicioId     String
+  completado          Boolean                   @default(false)
+  nivelDolor          Int?                      // 0-10
+  dificultadPercibida NivelDificultadPercibida?
+  observaciones       String?
+  creadoEn            DateTime                  @default(now())
+
+  sesion        SesionPaciente @relation(fields: [sesionId], references: [id])
+  planEjercicio PlanEjercicio  @relation(fields: [planEjercicioId], references: [id])
+
+  @@map("registros_ejercicio")
+}
+
+// ─────────────────────────────────────────────
+// ALERTA
+// Generadas automáticamente o manualmente.
+// Informativas: no reemplazan el criterio profesional.
+// ─────────────────────────────────────────────
+
+model Alerta {
+  id            String     @id @default(cuid())
+  centroId      String
+  pacienteId    String
+  tratamientoId String
+  kinesiologoId String
+  tipo          TipoAlerta
+  descripcion   String
+  leida         Boolean    @default(false)
+  resuelta      Boolean    @default(false)
+  creadoEn      DateTime   @default(now())
+  actualizadoEn DateTime   @updatedAt
+
+  centro      Centro      @relation(fields: [centroId], references: [id])
+  paciente    Paciente    @relation(fields: [pacienteId], references: [id])
+  tratamiento Tratamiento @relation(fields: [tratamientoId], references: [id])
+  kinesiologo Usuario     @relation(fields: [kinesiologoId], references: [id])
+
+  @@map("alertas")
+}
