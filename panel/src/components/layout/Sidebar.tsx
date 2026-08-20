@@ -26,6 +26,11 @@ const icons = {
       <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
     </svg>
   ),
+  lesiones: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/>
+    </svg>
+  ),
   configuracion: (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="12" cy="12" r="3"/>
@@ -41,11 +46,12 @@ const icons = {
 }
 
 const navItems = [
-  { href: '/dashboard',       label: 'Dashboard',       icon: icons.dashboard },
-  { href: '/pacientes',       label: 'Pacientes',       icon: icons.pacientes },
-  { href: '/ejercicios',      label: 'Ejercicios',      icon: icons.ejercicios },
-  { href: '/kinesiólogos',    label: 'Kinesiólogos',    icon: icons.kinesiólogos },
-  { href: '/configuracion',   label: 'Configuración',   icon: icons.configuracion },
+  { href: '/dashboard',     label: 'Dashboard',     icon: icons.dashboard },
+  { href: '/pacientes',     label: 'Pacientes',     icon: icons.pacientes },
+  { href: '/ejercicios',    label: 'Ejercicios',    icon: icons.ejercicios },
+  { href: '/lesiones',      label: 'Lesiones',      icon: icons.lesiones },
+  { href: '/kinesiologos',  label: 'Kinesiólogos',  icon: icons.kinesiólogos },
+  { href: '/configuracion', label: 'Configuración', icon: icons.configuracion },
 ]
 
 interface SidebarProps {

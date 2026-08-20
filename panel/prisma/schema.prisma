@@ -70,6 +70,7 @@ model Centro {
   tratamientos Tratamiento[]
   ejercicios   Ejercicio[]
   alertas      Alerta[]
+  lesiones     Lesion[]
 
   @@map("centros")
 }
@@ -165,6 +166,7 @@ model Tratamiento {
   objetivos    ObjetivoTratamiento[]
   planes       Plan[]
   alertas      Alerta[]
+  lesiones     Lesion[]
 
   @@map("tratamientos")
 }
@@ -375,4 +377,26 @@ model Alerta {
   kinesiologo Usuario     @relation(fields: [kinesiologoId], references: [id])
 
   @@map("alertas")
+}
+
+// ─────────────────────────────────────────────
+// LESION (catálogo estandarizado)
+// centroId null  → lesión global de Kinexo
+// centroId presente → lesión propia del centro
+// Un tratamiento puede estar asociado a varias lesiones.
+// ─────────────────────────────────────────────
+
+model Lesion {
+  id           String   @id @default(cuid())
+  centroId     String?
+  nombre       String
+  descripcion  String?
+  zonaCorporal String?
+  activo       Boolean  @default(true)
+  creadoEn     DateTime @default(now())
+
+  centro       Centro?       @relation(fields: [centroId], references: [id])
+  tratamientos Tratamiento[]
+
+  @@map("lesiones")
 }

@@ -5,7 +5,7 @@ import { extractSlug } from '@/lib/tenant'
 // Rutas accesibles sin sesión iniciada
 const PUBLIC_ROUTES = ['/login', '/register', '/forgot-password', '/reset-password']
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   // ── 1. Crear cliente Supabase (Edge-compatible, sin Prisma) ──────────────
