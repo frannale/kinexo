@@ -23,10 +23,15 @@ export async function getTenant(): Promise<TenantInfo | null> {
 // Extrae el subdominio del hostname.
 // Funciona en producción (centro.kinexo.ar) y en local (centro.localhost:3000).
 export function extractSlug(host: string): string | null {
-  const appDomain = process.env.NEXT_PUBLIC_APP_DOMAIN ?? 'kinexo.ar'
+  // Soporte para dominio configurable (producción: kinexo.ar, staging: kinexo-admin.vercel.app)
+  const appDomains = (process.env.NEXT_PUBLIC_APP_DOMAIN ?? 'kinexo.ar')
+    .split(',')
+    .map(d => d.trim())
 
-  if (host.endsWith(`.${appDomain}`)) {
-    return host.replace(`.${appDomain}`, '').split(':')[0]
+  for (const domain of appDomains) {
+    if (host.endsWith(`.${domain}`)) {
+      return host.slice(0, host.lastIndexOf(`.${domain}`)).split(':')[0]
+    }
   }
 
   if (host.includes('.localhost')) {
