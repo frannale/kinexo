@@ -1,15 +1,27 @@
 import { prisma } from '@/lib/prisma'
 import { notFound } from 'next/navigation'
+import type { Metadata } from 'next'
 import SesionView from './SesionView'
 
 const DIA_SEMANA: Record<number, string> = {
-  0: 'DOM',
-  1: 'LUN',
-  2: 'MAR',
-  3: 'MIE',
-  4: 'JUE',
-  5: 'VIE',
-  6: 'SAB',
+  0: 'DOM', 1: 'LUN', 2: 'MAR', 3: 'MIE', 4: 'JUE', 5: 'VIE', 6: 'SAB',
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ pacienteId: string }>
+}): Promise<Metadata> {
+  const { pacienteId } = await params
+  return {
+    title: 'Kinexo — Mi sesión',
+    manifest: `/api/manifest/${pacienteId}`,
+    appleWebApp: {
+      capable: true,
+      title: 'Kinexo',
+      statusBarStyle: 'default',
+    },
+  }
 }
 
 export default async function SesionPage({
@@ -68,26 +80,31 @@ export default async function SesionPage({
   const hoy = new Date()
   const diaHoy = DIA_SEMANA[hoy.getDay()]
 
-  const ejerciciosHoy = plan.planEjercicios.filter((pe) => {
-    if (!pe.diasSemana || pe.diasSemana.length === 0) return true
-    return pe.diasSemana.includes(diaHoy)
+  const mapEjercicio = (pe: (typeof plan.planEjercicios)[number]) => ({
+    planEjercicioId: pe.id,
+    nombre: pe.ejercicio.nombre,
+    zonaCorporal: pe.ejercicio.zonaCorporal ?? null,
+    dificultad: pe.ejercicio.dificultad,
+    series: pe.series ?? null,
+    repeticiones: pe.repeticiones ?? null,
+    duracionSegundos: pe.duracionSegundos ?? null,
+    instrucciones: pe.instruccionesEspecificas ?? pe.ejercicio.instrucciones ?? null,
   })
+
+  const ejerciciosHoy = plan.planEjercicios
+    .filter((pe) => !pe.diasSemana || pe.diasSemana.length === 0 || pe.diasSemana.includes(diaHoy))
+    .map(mapEjercicio)
+
+  const todosLosEjercicios = plan.planEjercicios.map(mapEjercicio)
 
   return (
     <SesionView
       pacienteNombre={`${paciente.nombre} ${paciente.apellido}`}
+      tratamientoNombre={tratamiento.nombre}
       planId={plan.id}
       pacienteId={paciente.id}
-      ejercicios={ejerciciosHoy.map((pe) => ({
-        planEjercicioId: pe.id,
-        nombre: pe.ejercicio.nombre,
-        zonaCorporal: pe.ejercicio.zonaCorporal ?? null,
-        dificultad: pe.ejercicio.dificultad,
-        series: pe.series ?? null,
-        repeticiones: pe.repeticiones ?? null,
-        duracionSegundos: pe.duracionSegundos ?? null,
-        instrucciones: pe.instruccionesEspecificas ?? pe.ejercicio.instrucciones ?? null,
-      }))}
+      ejercicios={ejerciciosHoy}
+      todosLosEjercicios={todosLosEjercicios}
     />
   )
 }
