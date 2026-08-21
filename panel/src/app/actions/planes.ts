@@ -21,16 +21,16 @@ export async function crearPlan(_prev: { error: string } | null, formData: FormD
       data: { estado: 'ARCHIVADO', motivoCambio: 'Reemplazado por nuevo plan' },
     })
 
+    const str = (key: string) => (formData.get(key) as string | null)?.trim() || null
+
     await prisma.plan.create({
       data: {
         tratamientoId,
         nombre,
-        objetivo: (formData.get('objetivo') as string).trim() || null,
-        frecuenciaSemanal: (formData.get('frecuenciaSemanal') as string)
-          ? parseInt(formData.get('frecuenciaSemanal') as string)
-          : null,
-        instrucciones: (formData.get('instrucciones') as string).trim() || null,
-        recomendaciones: (formData.get('recomendaciones') as string).trim() || null,
+        objetivo: str('objetivo'),
+        frecuenciaSemanal: str('frecuenciaSemanal') ? parseInt(formData.get('frecuenciaSemanal') as string) : null,
+        instrucciones: str('instrucciones'),
+        recomendaciones: str('recomendaciones'),
       },
     })
   } catch (e: unknown) {

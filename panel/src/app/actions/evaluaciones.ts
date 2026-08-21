@@ -23,21 +23,23 @@ export async function crearEvaluacion(_prev: { error: string } | null, formData:
   const pacienteId    = formData.get('pacienteId') as string
   const nivelDolorRaw = formData.get('nivelDolor') as string
 
+  const str = (key: string) => (formData.get(key) as string | null)?.trim() || null
+
   try {
     await prisma.evaluacion.create({
       data: {
         tratamientoId,
         kinesiologoId: usuario.id,
-        nivelDolor:    nivelDolorRaw !== '' ? parseInt(nivelDolorRaw) : null,
-        zonaCorporal:  (formData.get('zonaCorporal') as string).trim() || null,
-        diagnostico:   (formData.get('diagnostico') as string).trim() || null,
-        antecedentes:  (formData.get('antecedentes') as string).trim() || null,
-        sintomas:      (formData.get('sintomas') as string).trim() || null,
-        movilidad:     (formData.get('movilidad') as string).trim() || null,
-        fuerza:        (formData.get('fuerza') as string).trim() || null,
-        funcionalidad: (formData.get('funcionalidad') as string).trim() || null,
-        limitaciones:  (formData.get('limitaciones') as string).trim() || null,
-        observacionesProfesional: (formData.get('observacionesProfesional') as string).trim() || null,
+        nivelDolor:    nivelDolorRaw ? parseInt(nivelDolorRaw) : null,
+        zonaCorporal:  str('zonaCorporal'),
+        diagnostico:   str('diagnostico'),
+        antecedentes:  str('antecedentes'),
+        sintomas:      str('sintomas'),
+        movilidad:     str('movilidad'),
+        fuerza:        str('fuerza'),
+        funcionalidad: str('funcionalidad'),
+        limitaciones:  str('limitaciones'),
+        observacionesProfesional: str('observacionesProfesional'),
       },
     })
   } catch (e: unknown) {

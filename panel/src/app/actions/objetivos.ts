@@ -11,13 +11,14 @@ export async function crearObjetivo(_prev: { error: string } | null, formData: F
 
   const tratamientoId = formData.get('tratamientoId') as string
   const pacienteId    = formData.get('pacienteId') as string
-  const descripcion   = (formData.get('descripcion') as string).trim()
+  const str     = (key: string) => (formData.get(key) as string | null)?.trim() || null
+  const descripcion = str('descripcion') ?? ''
 
   if (!descripcion) return { error: 'La descripción es obligatoria' }
 
   const parseNum = (key: string) => {
-    const v = (formData.get(key) as string).trim()
-    return v !== '' ? parseFloat(v) : null
+    const v = str(key)
+    return v !== null ? parseFloat(v) : null
   }
 
   try {
@@ -25,11 +26,11 @@ export async function crearObjetivo(_prev: { error: string } | null, formData: F
       data: {
         tratamientoId,
         descripcion,
-        indicadorNombre: (formData.get('indicadorNombre') as string).trim() || null,
+        indicadorNombre: str('indicadorNombre'),
         valorInicial:    parseNum('valorInicial'),
-        valorActual:     parseNum('valorInicial'), // arranca igual al inicial
+        valorActual:     parseNum('valorInicial'),
         valorObjetivo:   parseNum('valorObjetivo'),
-        unidad:          (formData.get('unidad') as string).trim() || null,
+        unidad:          str('unidad'),
       },
     })
   } catch (e: unknown) {
