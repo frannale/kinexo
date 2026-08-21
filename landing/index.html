@@ -598,6 +598,14 @@
       max-width: 560px;
     }
 
+    /* ── HERO MICRO ── */
+    .hero-microfrase {
+      margin-top: 0.65rem;
+      font-size: 0.78rem;
+      color: var(--gray-4);
+      line-height: 1.5;
+    }
+
     /* ── STATS BAR ── */
     .stats {
       background: var(--navy);
@@ -629,6 +637,146 @@
       font-size: 0.82rem;
       color: rgba(255,255,255,0.5);
       line-height: 1.4;
+    }
+
+    /* ── WHATSAPP PROBLEM SECTION ── */
+    .wa-problem { background: var(--white); }
+
+    .wa-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      margin-top: 3rem;
+    }
+
+    .wa-chat {
+      background: #e5ddd5;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      position: relative;
+    }
+
+    .wa-chat-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding-bottom: 0.85rem;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      margin-bottom: 0.25rem;
+    }
+
+    .wa-avatar {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      background: #25d366;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .wa-contact-name { font-size: 0.88rem; font-weight: 700; color: #111; }
+    .wa-contact-sub  { font-size: 0.72rem; color: #667781; }
+
+    .bubble {
+      max-width: 85%;
+      padding: 0.5rem 0.85rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      line-height: 1.5;
+      position: relative;
+    }
+
+    .bubble-in {
+      background: #fff;
+      border-radius: 0 8px 8px 8px;
+      align-self: flex-start;
+      color: #111;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.12);
+    }
+
+    .bubble-out {
+      background: #d9fdd3;
+      border-radius: 8px 0 8px 8px;
+      align-self: flex-end;
+      color: #111;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.12);
+    }
+
+    .bubble-time {
+      font-size: 0.62rem;
+      color: #667781;
+      margin-top: 2px;
+      text-align: right;
+    }
+
+    .wa-solution {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .wa-feature {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+    }
+
+    .wa-feature-icon {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: var(--sky);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--blue);
+    }
+
+    .wa-feature strong { display: block; font-size: 0.92rem; font-weight: 700; color: var(--navy); margin-bottom: 0.15rem; }
+    .wa-feature span   { font-size: 0.82rem; color: var(--text-3); line-height: 1.45; }
+
+    /* ── EARLY ADOPTERS (reemplaza testimonios) ── */
+    .early-section { background: var(--sky3); }
+
+    .early-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .early-card {
+      background: var(--white);
+      border: 1.5px solid var(--gray-3);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+    }
+
+    .early-card-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      background: var(--sky);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      color: var(--blue);
+    }
+
+    .early-card strong { display: block; font-size: 0.95rem; font-weight: 700; color: var(--navy); margin-bottom: 0.4rem; }
+    .early-card p      { font-size: 0.83rem; color: var(--text-3); line-height: 1.55; }
+
+    .early-cta {
+      margin-top: 2.5rem;
+      text-align: center;
     }
 
     /* ── PROBLEM ── */
@@ -1356,6 +1504,8 @@
       .hamburger { display: flex; }
 
       .problem-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .wa-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .early-grid { grid-template-columns: 1fr; }
       .realtime-inner { grid-template-columns: 1fr; gap: 2.5rem; }
       .features-grid { grid-template-columns: 1fr; }
       .test-grid { grid-template-columns: 1fr; }
@@ -1398,7 +1548,7 @@
     <li>
       <a href="https://wa.me/5492281304531?text=Hola%2C%20quiero%20saber%20m%C3%A1s%20sobre%20Kinexo" target="_blank" rel="noopener" class="nav-wa">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        Hablar con nosotros
+        Quiero probarlo
       </a>
     </li>
   </ul>
@@ -1415,7 +1565,7 @@
   <a href="#precios" onclick="closeMenu()">Precios</a>
   <a href="https://wa.me/5492281304531?text=Hola%2C%20quiero%20saber%20m%C3%A1s%20sobre%20Kinexo" target="_blank" rel="noopener" class="btn-primary btn-wa" style="justify-content:center;" onclick="closeMenu()">
     <svg viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px;flex-shrink:0;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-    Pedir demo por WhatsApp
+    Quiero probar Kinexo
   </a>
 </div>
 
@@ -1425,20 +1575,28 @@
   <div class="hero-inner">
 
     <div class="hero-text">
+      <div class="hero-tag">
+        <div class="hero-tag-dot"></div>
+        Seguí a tus pacientes más allá del consultorio
+      </div>
+
       <h1>
-        Seguí a tus pacientes<br/>
-        <span class="accent">más allá del consultorio</span>
+        Tus pacientes no dejan<br/>
+        de hacer kinesiología<br/>
+        <span class="accent">cuando salen del consultorio.</span>
       </h1>
 
       <p class="hero-desc">
-        Kinexo es la plataforma que conecta al kinesiólogo con sus pacientes durante todo el proceso de recuperación. Asigná ejercicios, monitoreá el cumplimiento y ajustá el tratamiento en tiempo real.
+        Kinexo te permite asignar ejercicios, ver si los hicieron y saber cómo evolucionan — entre sesión y sesión. Tu paciente sabe exactamente qué hacer. Vos sabés exactamente qué pasó.
       </p>
 
       <div class="hero-actions">
-        <a href="https://wa.me/5492281304531?text=Hola%2C%20quiero%20saber%20m%C3%A1s%20sobre%20Kinexo" target="_blank" rel="noopener" class="btn-primary btn-wa">
-          <svg viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          Pedir demo por WhatsApp
-        </a>
+        <div>
+          <a href="https://wa.me/5492281304531?text=Hola%2C%20quiero%20probar%20Kinexo%20en%20mi%20centro" target="_blank" rel="noopener" class="btn-primary">
+            Quiero probar Kinexo
+          </a>
+          <p class="hero-microfrase">Te mostramos cómo funciona en una demo personalizada.</p>
+        </div>
         <a href="#como-funciona" class="btn-ghost">Ver cómo funciona</a>
       </div>
     </div>
@@ -1570,23 +1728,128 @@
 <div class="stats">
   <div class="stats-inner">
     <div class="stat-item reveal">
-      <div class="stat-num">+40%</div>
-      <div class="stat-label">Mejora en adherencia al tratamiento</div>
+      <div class="stat-num" style="font-size:1.5rem;">Seguimiento</div>
+      <div class="stat-label">continuo entre sesiones, no solo en el consultorio</div>
     </div>
     <div class="stat-item reveal reveal-delay-1">
-      <div class="stat-num">3x</div>
-      <div class="stat-label">Mayor visibilidad entre sesiones</div>
+      <div class="stat-num" style="font-size:1.5rem;">Visibilidad</div>
+      <div class="stat-label">real sobre adherencia, dolor y evolución de cada paciente</div>
     </div>
     <div class="stat-item reveal reveal-delay-2">
       <div class="stat-num">&lt;5 min</div>
-      <div class="stat-label">Para crear un plan de ejercicios completo</div>
+      <div class="stat-label">Para crear y asignar un plan de ejercicios completo</div>
     </div>
     <div class="stat-item reveal reveal-delay-3">
-      <div class="stat-num">100%</div>
-      <div class="stat-label">Digital, sin papel ni WhatsApp</div>
+      <div class="stat-num" style="font-size:1.5rem;">Sin papel</div>
+      <div class="stat-label">ni WhatsApp. Todo centralizado en un solo lugar</div>
     </div>
   </div>
 </div>
+
+<!-- WHATSAPP PROBLEM -->
+<section class="wa-problem py-xl">
+  <div class="container">
+    <div class="reveal" style="text-align:center;max-width:640px;margin:0 auto;">
+      <div class="section-eyebrow" style="justify-content:center;"><div class="eyebrow-line"></div> El problema <div class="eyebrow-line"></div></div>
+      <h2 class="section-title">¿Todavía mandás los ejercicios por WhatsApp?</h2>
+      <p class="section-sub" style="margin:0 auto;">Así se ve el seguimiento para la mayoría de los kinesiólogos hoy.</p>
+    </div>
+
+    <div class="wa-grid reveal">
+      <!-- Chat simulado -->
+      <div class="wa-chat">
+        <div class="wa-chat-header">
+          <div class="wa-avatar">ML</div>
+          <div>
+            <div class="wa-contact-name">María López · Paciente</div>
+            <div class="wa-contact-sub">hace un momento</div>
+          </div>
+        </div>
+
+        <div class="bubble bubble-in">
+          Hola! Cuántas repeticiones eran las del ejercicio de rodilla?? 😅
+          <div class="bubble-time">9:14</div>
+        </div>
+        <div class="bubble bubble-out">
+          3 series de 15 repeticiones 👍
+          <div class="bubble-time">9:31 ✓✓</div>
+        </div>
+        <div class="bubble bubble-in">
+          Ese ejercicio era el de ayer o el de hoy?
+          <div class="bubble-time">9:33</div>
+        </div>
+        <div class="bubble bubble-in">
+          Me empezó a doler un poco en la parte de abajo... lo sigo haciendo?
+          <div class="bubble-time">10:02</div>
+        </div>
+        <div class="bubble bubble-out">
+          No lo hagas más, pará un día 🙏
+          <div class="bubble-time">11:47 ✓✓</div>
+        </div>
+        <div class="bubble bubble-in">
+          Ah ok! Igual ya lo hice completo igual jeje
+          <div class="bubble-time">11:51</div>
+        </div>
+
+        <div style="text-align:center;margin-top:0.5rem;font-size:0.75rem;color:#667781;font-style:italic;">
+          Repetido con 20 pacientes. Todos los días.
+        </div>
+      </div>
+
+      <!-- Con Kinexo -->
+      <div class="wa-solution">
+        <div style="margin-bottom:1rem;">
+          <div class="section-eyebrow"><div class="eyebrow-line"></div> Con Kinexo</div>
+          <h3 style="font-size:1.45rem;font-weight:800;letter-spacing:-0.03em;color:var(--navy);line-height:1.2;">Tu paciente sabe exactamente qué hacer.<br/>Vos sabés exactamente qué pasó.</h3>
+        </div>
+
+        <div class="wa-feature">
+          <div class="wa-feature-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          </div>
+          <div>
+            <strong>Ejercicios con instrucciones claras</strong>
+            <span>Series, repeticiones, duración y descripción. Sin ambigüedades.</span>
+          </div>
+        </div>
+
+        <div class="wa-feature">
+          <div class="wa-feature-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          </div>
+          <div>
+            <strong>El paciente registra dolor y evolución</strong>
+            <span>Después de cada sesión, queda guardado en su historial.</span>
+          </div>
+        </div>
+
+        <div class="wa-feature">
+          <div class="wa-feature-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <strong>Antes de la próxima sesión ya sabés qué pasó</strong>
+            <span>Qué cumplió, con qué dificultad y si tuvo dolor. Sin preguntar.</span>
+          </div>
+        </div>
+
+        <div class="wa-feature">
+          <div class="wa-feature-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div>
+            <strong>Para todos tus pacientes a la vez</strong>
+            <span>Un panel centralizado. Sin conversaciones perdidas entre mensajes.</span>
+          </div>
+        </div>
+
+        <a href="https://wa.me/5492281304531?text=Hola%2C%20quiero%20probar%20Kinexo%20en%20mi%20centro" target="_blank" rel="noopener" class="btn-primary" style="align-self:flex-start;margin-top:0.5rem;">
+          Quiero probar Kinexo
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- PROBLEM -->
 <section id="problema" class="problem-bg py-lg">
@@ -1857,50 +2120,46 @@
   </div>
 </section>
 
-<!-- TESTIMONIALS -->
-<section class="py-xl">
+<!-- EARLY ADOPTERS -->
+<section class="early-section py-xl">
   <div class="container">
-    <div class="reveal" style="text-align:center;">
-      <div class="section-eyebrow" style="justify-content:center;"><div class="eyebrow-line"></div> Testimonios <div class="eyebrow-line"></div></div>
-      <h2 class="section-title">Profesionales que ya <span style="background:linear-gradient(135deg,var(--blue),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">trabajan diferente</span></h2>
+    <div class="reveal" style="text-align:center;max-width:600px;margin:0 auto;">
+      <div class="section-eyebrow" style="justify-content:center;"><div class="eyebrow-line"></div> Primeros centros <div class="eyebrow-line"></div></div>
+      <h2 class="section-title">Estamos incorporando los <span style="background:linear-gradient(135deg,var(--blue),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">primeros centros</span></h2>
+      <p class="section-sub" style="margin:0 auto;">Trabajamos directamente con cada centro en la implementación inicial. Si querés mejorar el seguimiento de tus pacientes, este es el momento.</p>
     </div>
 
-    <div class="test-grid">
-      <div class="tcard reveal">
-        <div class="tcard-stars">★★★★★</div>
-        <p class="tcard-quote">"Antes mandaba los ejercicios por WhatsApp y no sabía si el paciente los hacía. Con Kinexo puedo ver exactamente qué cumplió y ajustar el plan antes de que llegue al consultorio."</p>
-        <div class="tcard-author">
-          <div class="tcard-avatar av-1">LP</div>
-          <div>
-            <div class="tcard-name">Lic. Laura Pereyra</div>
-            <div class="tcard-role">Kinesióloga · Buenos Aires</div>
-          </div>
+    <div class="early-grid">
+      <div class="early-card reveal">
+        <div class="early-card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         </div>
+        <strong>Implementación personalizada</strong>
+        <p>Te ayudamos a configurar el centro, cargar los primeros pacientes y crear los primeros planes. No arrancás solo.</p>
       </div>
 
-      <div class="tcard reveal reveal-delay-1">
-        <div class="tcard-stars">★★★★★</div>
-        <p class="tcard-quote">"Los pacientes llegan a la sesión habiendo hecho sus ejercicios y con un registro de cómo se sintieron. El nivel de conversación clínica cambió completamente."</p>
-        <div class="tcard-author">
-          <div class="tcard-avatar av-2">MF</div>
-          <div>
-            <div class="tcard-name">Lic. Martín Figuera</div>
-            <div class="tcard-role">Centro KineSalud · Córdoba</div>
-          </div>
+      <div class="early-card reveal reveal-delay-1">
+        <div class="early-card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         </div>
+        <strong>Acceso directo al equipo</strong>
+        <p>Feedback directo a quienes construyen el producto. Las necesidades de los primeros centros dan forma a lo que viene.</p>
       </div>
 
-      <div class="tcard reveal reveal-delay-2">
-        <div class="tcard-stars">★★★★★</div>
-        <p class="tcard-quote">"En mi centro tenemos 4 kinesiólogos y 80 pacientes activos. Kinexo nos da una visión centralizada que antes era imposible de tener con papel o WhatsApp."</p>
-        <div class="tcard-author">
-          <div class="tcard-avatar av-3">SR</div>
-          <div>
-            <div class="tcard-name">Lic. Sofía Rodríguez</div>
-            <div class="tcard-role">Directora · Centro Movimiento</div>
-          </div>
+      <div class="early-card reveal reveal-delay-2">
+        <div class="early-card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
         </div>
+        <strong>Condiciones de early adopter</strong>
+        <p>Los primeros centros acceden a condiciones especiales que se mantienen mientras sigan en la plataforma.</p>
       </div>
+    </div>
+
+    <div class="early-cta reveal">
+      <a href="https://wa.me/5492281304531?text=Hola%2C%20quiero%20probar%20Kinexo%20en%20mi%20centro" target="_blank" rel="noopener" class="btn-primary">
+        Quiero ser de los primeros
+      </a>
+      <p style="margin-top:0.85rem;font-size:0.82rem;color:var(--gray-4);">Te contactamos en menos de 24 horas para coordinar una demo.</p>
     </div>
   </div>
 </section>
@@ -2012,12 +2271,12 @@
   <div class="container">
     <div class="cta-box reveal">
       <div class="section-eyebrow" style="justify-content:center;"><div class="eyebrow-line"></div> Empezá ahora <div class="eyebrow-line"></div></div>
-      <h2 class="section-title">¿Querés ver Kinexo<br/>en tu centro?</h2>
-      <p class="section-sub">Estamos trabajando con los primeros centros para validar la plataforma. Contactanos por WhatsApp y te mostramos cómo funciona en una demo personalizada.</p>
+      <h2 class="section-title">¿Querés probar Kinexo<br/>en tu centro?</h2>
+      <p class="section-sub">Coordinamos una demo personalizada. Te mostramos cómo funciona y configuramos tu primer paciente juntos.</p>
 
-      <a href="https://wa.me/5492281304531?text=Hola%2C%20quiero%20conocer%20m%C3%A1s%20sobre%20Kinexo%20para%20mi%20centro%20de%20kinesiolog%C3%ADa" target="_blank" rel="noopener" class="cta-wa">
+      <a href="https://wa.me/5492281304531?text=Hola%2C%20quiero%20probar%20Kinexo%20en%20mi%20centro" target="_blank" rel="noopener" class="cta-wa">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        Escribinos por WhatsApp
+        Quiero probar Kinexo
       </a>
     </div>
   </div>
