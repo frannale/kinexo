@@ -1,8 +1,11 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  // Permite que los headers inyectados por el middleware sean accesibles
-  // en Server Components vía next/headers
+  experimental: {
+    staleTimes: {
+      dynamic: 60, // segundos que el cliente reutiliza una página ya visitada
+    },
+  },
   async headers() {
     return [
       {
