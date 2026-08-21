@@ -119,25 +119,27 @@ export default async function PacienteDetailPage({
             ) : (
               <div className="divide-y divide-[#f1f5f9]">
                 {paciente.tratamientos.map((t) => (
-                  <div key={t.id} className="px-6 py-4">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <p className="font-semibold text-sm text-[#1a3050]">{t.nombre}</p>
-                        {t.motivoConsulta && (
-                          <p className="mt-0.5 text-xs text-[#64748b]">{t.motivoConsulta}</p>
-                        )}
-                        <p className="mt-1 text-xs text-[#94a3b8]">
-                          {t.kinesiologo.nombre} {t.kinesiologo.apellido} ·{' '}
-                          {new Date(t.fechaInicio).toLocaleDateString('es-AR')}
-                        </p>
-                      </div>
-                      <span
-                        className={`rounded-full border px-2.5 py-0.5 text-xs font-bold ${estadoStyles[t.estado] ?? ''}`}
-                      >
-                        {t.estado}
-                      </span>
+                  <Link
+                    key={t.id}
+                    href={`/pacientes/${paciente.id}/tratamientos/${t.id}`}
+                    className="flex items-start justify-between px-6 py-4 transition hover:bg-[#f8fbff]"
+                  >
+                    <div>
+                      <p className="font-semibold text-sm text-[#1a3050]">{t.nombre}</p>
+                      {t.motivoConsulta && (
+                        <p className="mt-0.5 text-xs text-[#64748b]">{t.motivoConsulta}</p>
+                      )}
+                      <p className="mt-1 text-xs text-[#94a3b8]">
+                        {t.kinesiologo.nombre} {t.kinesiologo.apellido} ·{' '}
+                        {new Date(t.fechaInicio).toLocaleDateString('es-AR')}
+                      </p>
                     </div>
-                  </div>
+                    <span
+                      className={`rounded-full border px-2.5 py-0.5 text-xs font-bold ${estadoStyles[t.estado] ?? ''}`}
+                    >
+                      {t.estado}
+                    </span>
+                  </Link>
                 ))}
               </div>
             )}
